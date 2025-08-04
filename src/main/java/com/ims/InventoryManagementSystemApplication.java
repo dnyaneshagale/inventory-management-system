@@ -1,4 +1,4 @@
-package com.ims.inventory_management_system;
+package com.ims;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class InventoryManagementSystemApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(InventoryManagementSystemApplication.class, args);
 	}
-
 }
