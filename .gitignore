@@ -32,4 +32,10 @@ build/
 ### VS Code ###
 .vscode/
 
+# Ignore test properties file
 src/main/resources/application.properties
+src/test/resources/application-test.properties
+
+# Ignore Docker configuration files
+docker-compose.yml
+Dockerfile
