@@ -28,24 +28,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDto createUser(UserDto userDto, String password) {
-        // Check if username or email already exists
+    public UserDto createUser(UserDto userDto) {
+
         if (userRepository.existsByUsername(userDto.getUsername())) {
             throw new DuplicateResourceException("Username already exists: " + userDto.getUsername());
         }
-        
+
         if (userRepository.existsByEmail(userDto.getEmail())) {
             throw new DuplicateResourceException("Email already exists: " + userDto.getEmail());
         }
-        
+
         User user = new User();
         user.setUsername(userDto.getUsername());
-        user.setPassword(passwordEncoder.encode(password));
+
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setFullName(userDto.getFullName());
         user.setEmail(userDto.getEmail());
         user.setActive(userDto.getActive() != null ? userDto.getActive() : true);
-        
-        // Assign roles
+
+
         Set<Role> roles = new HashSet<>();
         if (userDto.getRoles() != null && !userDto.getRoles().isEmpty()) {
             for (String roleName : userDto.getRoles()) {
@@ -54,16 +55,18 @@ public class UserServiceImpl implements UserService {
                 roles.add(role);
             }
         } else {
-            // Assign default role if none specified
             Role defaultRole = roleRepository.findByName("ROLE_USER")
                     .orElseThrow(() -> new ResourceNotFoundException("Default role 'ROLE_USER' not found"));
             roles.add(defaultRole);
         }
-        
+
         user.setRoles(roles);
         User savedUser = userRepository.save(user);
+
         
-        return mapToDto(savedUser);
+        UserDto responseDto = mapToDto(savedUser);
+        responseDto.setPassword(null); // Prevents password from being sent in the response
+        return responseDto;
     }
 
     @Override

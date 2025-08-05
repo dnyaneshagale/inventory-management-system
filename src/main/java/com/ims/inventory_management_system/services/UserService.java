@@ -5,7 +5,7 @@ import com.ims.inventory_management_system.dto.UserDto;
 import java.util.List;
 
 public interface UserService {
-    UserDto createUser(UserDto userDto, String password);
+    UserDto createUser(UserDto userDto);
     UserDto getUserById(Long id);
     UserDto getUserByUsername(String username);
     List<UserDto> getAllUsers();
