@@ -34,4 +34,4 @@ build/
 .vscode/
 
 src/main/resources/application.properties
-src/main/java/config/DatabaseInitializer.java
+src/main/java/config/DatabaseInitializer.javasrc/main/java/com/ims/inventory_management_system/config/DatabaseInitializer.java
