@@ -63,7 +63,6 @@ public class UserServiceImpl implements UserService {
         user.setRoles(roles);
         User savedUser = userRepository.save(user);
 
-        
         UserDto responseDto = mapToDto(savedUser);
         responseDto.setPassword(null); // Prevents password from being sent in the response
         return responseDto;
