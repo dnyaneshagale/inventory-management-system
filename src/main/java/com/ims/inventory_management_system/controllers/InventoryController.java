@@ -1,6 +1,8 @@
 package com.ims.inventory_management_system.controllers;
 
+import com.ims.inventory_management_system.dto.InventoryAdjustmentRequest;
 import com.ims.inventory_management_system.dto.InventoryDto;
+import com.ims.inventory_management_system.dto.InventoryTransferRequest;
 import com.ims.inventory_management_system.services.InventoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -64,9 +66,8 @@ public class InventoryController {
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'USER')")
     public ResponseEntity<Void> adjustInventory(
             @PathVariable Long id,
-            @RequestParam Integer quantityChange,
-            @RequestParam String reason) {
-        inventoryService.adjustInventory(id, quantityChange, reason);
+            @Valid @RequestBody InventoryAdjustmentRequest inventoryAdjustmentRequest) {
+        inventoryService.adjustInventory(id, inventoryAdjustmentRequest.getQuantityChange(), inventoryAdjustmentRequest.getReason());
         return ResponseEntity.ok().build();
     }
 
@@ -74,9 +75,8 @@ public class InventoryController {
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ResponseEntity<Void> transferInventory(
             @PathVariable Long sourceId,
-            @RequestParam Long destinationWarehouseId,
-            @RequestParam Integer quantity) {
-        inventoryService.transferInventory(sourceId, destinationWarehouseId, quantity);
+            @Valid @RequestBody InventoryTransferRequest inventoryTransferRequest) {
+        inventoryService.transferInventory(sourceId, inventoryTransferRequest.getDestinationWarehouseId(), inventoryTransferRequest.getQuantity());
         return ResponseEntity.ok().build();
     }
 
